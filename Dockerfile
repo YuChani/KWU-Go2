@@ -54,6 +54,7 @@ RUN apt update && apt install -y \
     ros-humble-velodyne-description \
     ros-humble-velodyne-driver \
     ros-humble-velodyne-pointcloud \
+    ros-humble-dynamixel-sdk \
     && rm -rf /var/lib/apt/lists/*
 
 # 4. rosdep 초기화
@@ -62,18 +63,20 @@ RUN rosdep init && rosdep update
 # 5. ROS 환경 설정
 RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 
-# 6. ros2_ws 생성 및 GitHub 프로젝트 clone
-RUN mkdir -p /root/ros2_ws/src && \
-    git clone https://github.com/YuChani/KWU-Go2.git /root/ros2_ws/src/KWU-Go2
+# 6. ros2_ws 생성 및 GitHub에서 전체 워크스페이스 clone
+RUN git clone https://github.com/YuChani/KWU-Go2.git /root/ros2_ws
 
-# 7. ros2_ws 초기 빌드
-RUN cd /root/ros2_ws && colcon build
+# 7. rosdep 설치 (충돌 방지를 위해 실패해도 계속 진행)
+RUN /bin/bash -c "source /opt/ros/humble/setup.bash && rosdep install --from-paths /root/ros2_ws/src --ignore-src -r -y || true"
 
-# 8. ros2_ws 환경 설정
+# 8. colcon build는 사용자가 직접 수행 (수정에 따라 결정될 수 있으므로)
+# (주석처리)
+# RUN cd /root/ros2_ws && colcon build
+
+# 9. ros2_ws 환경 설정
 RUN echo "source /root/ros2_ws/install/setup.bash" >> /root/.bashrc
 
-# 9. 기본 작업 디렉토리
+# 10. 기본 작업 디렉토리
 WORKDIR /root/ros2_ws
 
 CMD ["bash"]
-
