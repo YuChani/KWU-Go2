@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="maze_6x5_v1">
+
+    <physics type="ode">
+      <max_step_size>0.00625</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>160</real_time_update_rate>
+      <gravity>0 0 -9.8</gravity>
+    </physics>
+
+    <scene>
+      <shadows>false</shadows>
+      <ambient>0.2 0.2 0.2 1</ambient>
+      <background>0.9 0.9 0.9 1</background> <!-- 밝기 약간 줄임 -->
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+    </scene>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <light name="camera_spot_1_light" type="spot">
+      <pose>-4 4 4 0 -1 -0.8</pose>
+      <diffuse>0.3 0.3 0.3 1</diffuse> <!-- 밝기 줄임 -->
+      <specular>0.05 0.05 0.05 1</specular>
+      <direction>0 0 -1</direction>
+      <attenuation>
+        <range>20</range>
+        <constant>0.2</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <spot>
+        <inner_angle>0.6</inner_angle>
+        <outer_angle>1</outer_angle>
+        <falloff>1</falloff>
+      </spot>
+    </light>
+
+    <light name="camera_spot_2_light" type="spot">
+      <pose>7 -3 4 0 0.8 -0.6</pose>
+      <diffuse>0.3 0.3 0.3 1</diffuse> <!-- 밝기 줄임 -->
+      <specular>0.05 0.05 0.05 1</specular>
+      <direction>0 0 -1</direction>
+      <attenuation>
+        <range>20</range>
+        <constant>0.3</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <spot>
+        <inner_angle>0.6</inner_angle>
+        <outer_angle>1</outer_angle>
+        <falloff>1</falloff>
+      </spot>
+    </light>
+
+    <include>
+      <uri>model://floor_parquet2</uri>
+      <pose>2 0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://maze_1_6x5</uri>
+      <pose>-0.5 -2.5 0 0 0 0</pose>
+    </include>
+
+    <!-- <include>
+      <uri>model://maze_1_tags</uri>
+      <pose>-2.5 -2.5 0 0 0 0</pose>
+    </include> -->
+
+    <!-- 로봇이 회전된 상태로 소환될 자리 (직접 스폰 시 yaw 사용 권장) -->
+    <!-- 로봇은 launch 파일에서 spawn_entity 시 --yaw 3.14159 로 지정하세요 -->
+    
+  </world>
+</sdf>
